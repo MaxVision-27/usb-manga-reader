@@ -102,6 +102,11 @@ You can also flip it per series with the direction button in the app.
 
 To remove the demo: delete manga\_Demo, then rebuild or rescan.
 
+MANGA PACKS: extra series may be posted on the GitHub Releases page:
+  https://github.com/MaxVision-27/usb-manga-reader/releases
+Download a pack's .zip, extract it, move the series folder into manga\,
+then rebuild or rescan.
+
 
 4. USING IT
 -----------

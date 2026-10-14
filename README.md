@@ -37,6 +37,21 @@ Then double-click **REBUILD-LIBRARY.bat** and reload the reader (F5).
 - Plain image folders can also be picked up on any computer with **Connect USB → Rescan** inside the app.
 - For left-to-right series, add an `info.txt` to the series folder containing `direction: ltr`.
 
+## Manga packs
+
+Extra series are posted separately on the [Releases](https://github.com/MaxVision-27/usb-manga-reader/releases) page, so the main download stays small. Each pack is a `.zip` holding one series folder.
+
+**To install a pack:**
+
+1. Open [Releases](https://github.com/MaxVision-27/usb-manga-reader/releases) and download the pack's `.zip` under **Assets**.
+2. Extract it. You get a series folder, for example `Series Name\`.
+3. Move that folder into `manga\` on your USB.
+4. Double-click **REBUILD-LIBRARY.bat** (or use **Connect USB → Rescan** in the app), then press F5.
+
+Packs can contain image folders, `.cbz`/`.zip`, or `.pdf` files. The rebuild handles all of them.
+
+**To publish a pack:** zip the series folder itself, so the zip contains `Series Name\...` at the top. Then go to **Releases → Draft a new release**, name it `Pack: Series Name`, attach the zip, and publish. Only post manga you have the right to redistribute, such as your own work, work shared with the creator's permission, or public domain or Creative Commons titles.
+
 ## Saving progress to the USB
 
 Click **Connect USB** in the library and pick the reader's folder (the one with `START.html`). After that, one "Allow" click per session. If a computer blocks the folder picker, progress still saves in that browser, and **Export / Import** move it to and from the USB.
