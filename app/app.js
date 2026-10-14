@@ -223,8 +223,8 @@
       <tr><td>Wheel, <kbd>↑</kbd> <kbd>↓</kbd>, <kbd>Space</kbd>, <kbd>PgUp</kbd> <kbd>PgDn</kbd></td><td>Scroll</td></tr>
       <tr><td>Click top / bottom third</td><td>Scroll one screen up / down</td></tr>
       <tr><td>Click middle</td><td>Show / hide the top bar</td></tr>
-      <tr><td><kbd>←</kbd> <kbd>→</kbd></td><td>Previous / next chapter (follows reading direction)</td></tr>
-      <tr><td><kbd>[</kbd> <kbd>]</kbd></td><td>Previous / next chapter</td></tr>
+      <tr><td><kbd>←</kbd> <kbd>→</kbd></td><td>Previous / next page (follows reading direction)</td></tr>
+      <tr><td><kbd>[</kbd> <kbd>]</kbd></td><td>Previous / next chapter or volume</td></tr>
       <tr><td><kbd>2</kbd></td><td>Spreads on / off</td></tr>
       <tr><td><kbd>O</kbd></td><td>Offset spread pairs by one</td></tr>
       <tr><td><kbd>F</kbd></td><td>Fullscreen</td></tr>
@@ -534,10 +534,26 @@
     openChapter(i);
   }
 
+  // Move one page (or one spread row) and put its top at the top of the screen.
+  function step(d) {
+    const a = anchor();
+    if (!a) return;
+    const imgs = [...document.querySelectorAll('#strip .pg')], k = imgs.indexOf(a.img);
+    const top = a.img.getBoundingClientRect().top;
+    let t;
+    if (d > 0) t = imgs.slice(k + 1).find(i => i.getBoundingClientRect().top > top + 5);
+    else if (top < -5) t = a.img; // partway into this page: back to its top first
+    else t = imgs.slice(0, k).reverse().find(i => i.getBoundingClientRect().top < top - 5);
+    if (t) scrollTo(0, t.getBoundingClientRect().top + scrollY);
+    else if (d > 0) scrollTo(0, document.documentElement.scrollHeight);
+  }
+
   const acts = {
     back: () => go('#/s/' + encodeURIComponent(R.s.id)),
     prev: () => jump(-1),
     next: () => jump(1),
+    pagePrev: () => step(-1),
+    pageNext: () => step(1),
     fit: () => opt({ fit: { width: 'height', height: 'original', original: 'width' }[sp(R.s.id).fit] || 'width' }),
     spreads: () => opt({ spreads: !sp(R.s.id).spreads }),
     shift: () => opt({ shift: sp(R.s.id).shift ? 0 : 1 }),
@@ -566,7 +582,7 @@
     const k = e.key.toLowerCase();
     if (R) {
       const rtl = (sp(R.s.id).dir || R.s.direction) === 'rtl';
-      const a = { '[': 'prev', ']': 'next', arrowleft: rtl ? 'next' : 'prev', arrowright: rtl ? 'prev' : 'next', 2: 'spreads', o: 'shift', f: 'full', escape: 'back' }[k];
+      const a = { '[': 'prev', ']': 'next', arrowleft: rtl ? 'pageNext' : 'pagePrev', arrowright: rtl ? 'pagePrev' : 'pageNext', 2: 'spreads', o: 'shift', f: 'full', escape: 'back' }[k];
       if (a) { e.preventDefault(); acts[a](); }
     } else if (k === 'escape' && location.hash.startsWith('#/s/')) go('#/');
   });

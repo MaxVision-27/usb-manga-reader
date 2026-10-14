@@ -113,9 +113,10 @@ Reader keys (press ? any time to see these):
   Mouse wheel, Up/Down, Space, PgUp/PgDn   scroll
   Click top / bottom third of the screen   scroll one screen up / down
   Click the middle                         show / hide the top bar
-  Left / Right arrows                      previous / next chapter
-                                           (follows reading direction)
-  [  ]                                     previous / next chapter
+  Left / Right arrows                      previous / next page (one spread
+                                           at a time with spreads on;
+                                           follows reading direction)
+  [  ]                                     previous / next chapter or volume
   2                                        spreads on/off
   O                                        offset spread pairs by one
   F                                        fullscreen

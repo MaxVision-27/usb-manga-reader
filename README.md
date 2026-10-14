@@ -46,7 +46,8 @@ Click **Connect USB** in the library and pick the reader's folder (the one with 
 | Key | Action |
 |---|---|
 | Wheel, ↑ ↓, Space, PgUp/PgDn | Scroll |
-| ← → or `[` `]` | Previous / next chapter |
+| ← → | Previous / next page (follows reading direction) |
+| `[` `]` | Previous / next chapter or volume |
 | `2` | Spreads on/off |
 | `O` | Offset spread pairs by one |
 | `F` | Fullscreen |
