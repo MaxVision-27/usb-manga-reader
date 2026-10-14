@@ -406,6 +406,7 @@
       const img = e.target;
       img.classList.add('ld');
       if (img.naturalWidth > img.naturalHeight) img.classList.add('wide');
+      if (R.pin) scrollToImg(R.pin.img, R.pin.frac); // page sizes changed: re-apply the saved spot
     }, true);
     strip.addEventListener('error', e => e.target.classList?.add('broken'), true);
     app.oncontextmenu = null;
@@ -447,11 +448,12 @@
     R.moreObs.disconnect();
     R.first = R.cur = ci;
     R.last = ci - 1;
+    R.pin = null;
     strip.innerHTML = ci > 0 ? `<button class="prevch" data-k="prev">← Previous: ${esc(chTitle(s, s.chapters[ci - 1]))}</button>` : '';
     $('#chName').textContent = chTitle(s, s.chapters[ci]);
     appendChapter();
     const img = strip.querySelectorAll('.pg')[page];
-    if (img && (page || frac)) scrollToImg(img, frac); else scrollTo(0, 0);
+    if (img && (page || frac)) pin(img, frac); else scrollTo(0, 0);
     R.y = scrollY;
   }
 
@@ -487,14 +489,20 @@
   function scrollToImg(img, frac) {
     scrollTo(0, img.getBoundingClientRect().top + scrollY + frac * img.offsetHeight - innerHeight * FOCUS_Y);
   }
+  // Hold the view on a saved spot while images load and resize, until the reader scrolls/clicks/types.
+  function pin(img, frac) {
+    R.pin = { img, frac };
+    scrollToImg(img, frac);
+  }
 
   function trackPos() {
     const a = anchor();
     if (!a) return;
     const i = +a.img.closest('.chap').dataset.i, c = R.s.chapters[i], j = +a.img.dataset.j;
-    R.pos = { chapter: c.id, page: j, frac: +a.frac.toFixed(3) };
     $('#prog i').style.width = (j + a.frac) / c.pages.length * 100 + '%';
     if (R.cur !== i) { R.cur = i; $('#chName').textContent = chTitle(R.s, c); }
+    if (R.pin) return; // still settling on the saved spot; don't overwrite it
+    R.pos = { chapter: c.id, page: j, frac: +a.frac.toFixed(3) };
     clearTimeout(R.posT);
     R.posT = setTimeout(flushPos, 400);
   }
@@ -514,7 +522,7 @@
     const a = anchor();
     setSp(R.s.id, patch);
     applyOpts();
-    if (a) scrollToImg(a.img, a.frac);
+    if (a) pin(a.img, a.frac);
   }
 
   function jump(d) {
@@ -545,6 +553,7 @@
     if (!tick) tick = setTimeout(() => { tick = 0; if (R) trackPos(); }, 100);
   }, { passive: true });
   addEventListener('mousemove', e => { if (R && R.barHidden && e.clientY < 40) setBar(true); });
+  for (const ev of ['wheel', 'keydown', 'mousedown', 'touchstart']) addEventListener(ev, () => { if (R) R.pin = null; }, { capture: true, passive: true });
 
   // ---------- keyboard ----------
   addEventListener('keydown', e => {
@@ -580,6 +589,9 @@
     showLibrary();
   }
   addEventListener('hashchange', route);
+  // Chrome would otherwise restore the old pixel offset on reload, which lands on a different page
+  // because unloaded pages have a placeholder height. The reader restores by page + fraction instead.
+  history.scrollRestoration = 'manual';
 
   if (!location.hash && P.resume?.series && byId.has(P.resume.series)) history.replaceState(null, '', '#/r/' + encodeURIComponent(P.resume.series));
   route();
