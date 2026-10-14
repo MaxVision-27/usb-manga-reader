@@ -2,6 +2,8 @@
 
 A manga reader that runs straight from a USB drive. Double-click `START.html` and read. No internet, no install, no admin rights, and no server. It works in Chrome or Edge on Windows.
 
+💬 **[Join the Discord](https://discord.gg/qdnrh9HA3u)** for setup help, bug reports, feature requests, and shareable manga packs.
+
 - Library grid with covers, search, sorting, favorites, and unread counts
 - A "Continue reading" row that reopens exactly where you left off
 - Vertical scroll reader with optional two-page spreads, right-to-left or left-to-right
@@ -39,7 +41,7 @@ Then double-click **REBUILD-LIBRARY.bat** and reload the reader (F5).
 
 ## Manga packs
 
-Extra series are posted separately on the [Releases](https://github.com/MaxVision-27/usb-manga-reader/releases) page, so the main download stays small. Each pack is a `.zip` holding one series folder.
+Extra series are posted separately on the [Releases](https://github.com/MaxVision-27/usb-manga-reader/releases) page and in the **#packs** forum on the [Discord](https://discord.gg/qdnrh9HA3u), so the main download stays small. Each pack is a `.zip` holding one series folder.
 
 **To install a pack:**
 
