@@ -1,0 +1,1 @@
+window.LIBRARY = {"generated":"2026-10-14T01:05:31Z","series":[{"id":"_Demo","title":"Demo (delete me)","direction":"rtl","cover":"cover.svg","added":1791939702344,"chapters":[{"id":"Chapter 1","pages":["01.svg","02.svg","03.svg","04.svg","05.svg","06.svg","07.svg","08.svg"]},{"id":"Chapter 2","pages":["01.svg","02.svg","03.svg","04.svg","05.svg"]}]}]};
